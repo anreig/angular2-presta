@@ -10,24 +10,26 @@ To install this library, run:
 $ npm install angular2-presta --save
 ```
 
-## Consuming your library
-
-Once you have published your library to npm, you can import your library in any Angular application by running:
-
-```bash
-$ npm install angular2-presta
-```
+## Setup
 
 and then from your Angular `AppModule`:
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+// Import angular2-presta module
+import { PrestaModule, PrestaConfiguration, PrestaPipe } from 'angular2-presta';
 
 import { AppComponent } from './app.component';
 
-// Import your library
-import { SampleModule } from 'angular2-presta';
+// Add your presta web service api key and shop url
+export const prestaConfiguration: PrestaConfiguration = {
+  apiKey: '?ws_key=enter your presta api key',
+  shopUrl: 'http://yourshop.com/api/'
+};
 
 @NgModule({
   declarations: [
@@ -35,9 +37,7 @@ import { SampleModule } from 'angular2-presta';
   ],
   imports: [
     BrowserModule,
-
-    // Specify your library as an import
-    LibraryModule
+    PrestaModule.forRoot(prestaConfiguration)
   ],
   providers: [],
   bootstrap: [AppComponent]
