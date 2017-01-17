@@ -1,6 +1,6 @@
 {
   "name": "angular2-presta",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "lint": "tslint src/**/*.ts",
     "test": "tsc && karma start",
@@ -24,8 +24,7 @@
     "url": "https://github.com/SKaDiZZ/angular2-presta/issues"
   },
   "main": "./dist/index.js",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@angular/core": "^2.0.0",
     "@angular/common": "^2.0.0",
