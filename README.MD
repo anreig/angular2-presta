@@ -2,6 +2,8 @@
 
 This is beta version, with many bugs and missing features, only for testing ...
 
+Angular 2 Presta library should make your life easier when you are developing angular 2 or ionic 2 apps which are using Presta Shop web services. Library adds PrestaService which allows you to use many of features like getting: products, categories, images and filtering and sorting data you are getting.
+
 ## Installation
 
 To install this library, run:
@@ -47,6 +49,17 @@ export class AppModule { }
 
 ## Using PrestaService
 
+For now only GET is supported so no posting or updating data is available.
+
+Query:
+  resource: : string > Select type of results: products, categories, customers ...
+  display : string > Allows you to limit result fields to only those you need, by default it will return all fields
+  filter: string > field to filter by: id, name, category ...
+  filterArgs: string > value to filter by: '1', 'pc', 'tech' ...
+  sort: string > sort results by: 'id_ASC', 'id_DESC', 'name_ASC', 'name_DESC' ...
+  limit: string > limit number of results, or define range of results '5', '9,5'
+
+Example
 ```typescript
 import { Component } from '@angular/core';
 import { PrestaService, Query } from 'angular2-presta';
@@ -79,6 +92,8 @@ export class AppComponent {
 ```
 
 ## Outputing data
+
+Some of the Presta web service results come with html tags included to filter out tags you can use removeTags pipe.
 
 ```html
 <ul *ngIf="items">
