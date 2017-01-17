@@ -45,6 +45,51 @@ export const prestaConfiguration: PrestaConfiguration = {
 export class AppModule { }
 ```
 
+## Using PrestaService
+
+```typescript
+import { Component } from '@angular/core';
+import { PrestaService, Query } from 'angular2-presta';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  providers: [PrestaService]
+})
+export class AppComponent {
+
+  title = 'App title';
+  items: any[];
+
+  constructor(private _prestaService: PrestaService) {
+
+    var query: Query = {
+      resource : 'products',
+      display  : 'id, id_default_image, name, price, description_short, condition',
+      sort: 'name_ASC'
+    };
+
+    this._prestaService.get(query)
+                       .subscribe(results => this.items = results);
+
+  }
+
+}
+```
+
+## Outputing data
+
+```html
+<ul *ngIf="items">
+  <li *ngFor="let item of items">
+    <h1>{{ item.name }}</h1>
+    <p>{{ item.description_short | removeTags }}</p>
+    <p>{{ item.price }}<p>
+  </li>
+</ul>
+```
+
 ## License
 
 MIT © [Samir Kahvedzic](mailto:akirapowered@gmail.com)
