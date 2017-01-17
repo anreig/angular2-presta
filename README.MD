@@ -1,5 +1,7 @@
 # angular2-presta
 
+This is beta version, with many bugs and missing features, only for testing ...
+
 ## Installation
 
 To install this library, run:
