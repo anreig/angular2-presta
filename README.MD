@@ -54,8 +54,7 @@ For now only GET is supported so no posting or updating data is available.
 Query:
   * resource: : string > Select type of results: products, categories, customers ...
   * display : string > Allows you to limit result fields to only those you need, by default it will return all fields
-  * filter: string > field to filter by: id, name, category ...
-  * filterArgs: string > value to filter by: '1', 'pc', 'tech' ...
+  * filter: Object > object defining fields and values to filter results by
   * sort: string > sort results by: 'id_ASC', 'id_DESC', 'name_ASC', 'name_DESC' ...
   * limit: string > limit number of results, or define range of results '5', '9,5'
 
@@ -80,8 +79,14 @@ export class AppComponent {
     var query: Query = {
       resource : 'products',
       display  : 'id, id_default_image, name, price, description_short, condition',
-      sort: 'name_ASC'
+      filter: {
+        name: 'blouse',
+        condition: 'new'
+      },
+      sort: 'name_ASC',
+      limit: '1'
     };
+
 
     this._prestaService.get(query)
                        .subscribe(results => this.items = results);
@@ -104,6 +109,10 @@ Some of the Presta web service results come with html tags included to filter ou
   </li>
 </ul>
 ```
+
+## Latest updates
+
+* Added support for more then one filter
 
 ## License
 
