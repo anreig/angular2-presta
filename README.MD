@@ -1,8 +1,8 @@
 # angular2-presta
 
-This is beta version, with many bugs and missing features, only for testing ...
+This is beta version of angular 2 services for consuming Presta Shop API, with many bugs and missing features, only for testing ...
 
-Angular 2 Presta library should make your life easier when you are developing angular 2 or ionic 2 apps which are using Presta Shop web services. Library adds PrestaService which allows you to use many of features like getting: products, categories, images and filtering and sorting data you are getting.
+This library should help developers coding angular 2 and ionic 2 apps consuming Presta Shop API.
 
 ## Installation
 
@@ -12,9 +12,9 @@ To install this library, run:
 $ npm install angular2-presta --save
 ```
 
-## Setup
+## Bootstrap
 
-and then from your Angular `AppModule`:
+and then from your Angular 2 App Module:
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
@@ -29,7 +29,7 @@ import { AppComponent } from './app.component';
 
 // Add your presta web service api key and shop url
 export const prestaConfiguration: PrestaConfiguration = {
-  apiKey: '?ws_key=enter your presta api key',
+  apiKey: 'YOUR_PRESTA_API_KEY',
   shopUrl: 'http://yourshop.com/api/'
 };
 
@@ -49,18 +49,12 @@ export class AppModule { }
 
 ## Using PrestaService
 
-For now only GET is supported so no posting or updating data is available.
-
-Query:
-  * resource: : string > Select type of results: products, categories, customers ...
-  * display : string > Allows you to limit result fields to only those you need, by default it will return all fields
-  * filter: Object > object defining fields and values to filter results by
-  * sort: string > sort results by: 'id_ASC', 'id_DESC', 'name_ASC', 'name_DESC' ...
-  * limit: string > limit number of results, or define range of results '5', '9,5'
-
 Example
 ```typescript
 import { Component } from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+
+// Import presta service and Query
 import { PrestaService, Query } from 'angular2-presta';
 
 @Component({
@@ -71,12 +65,12 @@ import { PrestaService, Query } from 'angular2-presta';
 })
 export class AppComponent {
 
-  title = 'App title';
-  items: any[];
+  items: Observable<any>;
 
   constructor(private _prestaService: PrestaService) {
 
-    var query: Query = {
+    // construct Query
+    let query: Query = {
       resource : 'products',
       display  : 'id, id_default_image, name, price, description_short, condition',
       filter: {
@@ -87,13 +81,69 @@ export class AppComponent {
       limit: '1'
     };
 
-
+    // pass Query to presta service and subscribe to get results
     this._prestaService.get(query)
                        .subscribe(results => this.items = results);
 
   }
 
 }
+```
+
+# Constructing Query
+
+For now only GET method is supported, no posting or updating data is available.
+
+Query options:
+  * resource: **string** > Select type of results: products, categories, customers ...
+  * display : **string** > Allows you to limit result fields to only those you need, by default it will return all fields
+  * filter: **Object** > object defining fields and values to filter results by
+  * sort: **string** > sort results by: 'id_ASC', 'id_DESC', 'name_ASC', 'name_DESC' ...
+  * limit: **string** > limit number of results, or define range of results '5', '9,5'
+  * search: **string** > search term to use for presta web service search
+
+## Get product categories
+
+```typescript
+let query: Query = {
+    resource: 'categories'
+  };
+```
+
+## Get products by category
+
+```typescript
+let query: Query = {
+    resource: 'products',
+    filter: {
+      id_category_default: '11'
+    }
+  };
+```
+
+## Using search
+
+Search Query can accept search and resource fields. By default search will return list of products if no other resource is defined.
+
+```typescript
+let query: Query = {
+    search: 'blouse'
+  };
+
+this._prestaService.search(query)
+                   .subscribe(results => this.items = results);
+```
+
+### Search categories
+
+```typescript
+let query: Query = {
+    resource: 'categories'
+    search: 'dresses'
+  };
+
+this._prestaService.search(query)
+                   .subscribe(results => this.items = results);
 ```
 
 ## Outputing data
@@ -112,7 +162,8 @@ Some of the Presta web service results come with html tags included to filter ou
 
 ## Latest updates
 
-* Added support for more then one filter
+* [0.1.3] Added support for search, code optimized, many fixes
+* [v0.1.2] Added support for more then one filter
 
 ## License
 
