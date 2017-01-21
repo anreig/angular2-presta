@@ -5,7 +5,7 @@ export interface PrestaConfiguration {
 export interface Query {
     resource?: string;
     display?: string;
-    filter?: Object;
+    filter?: any;
     sort?: string;
     limit?: string;
     search?: string;
