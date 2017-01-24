@@ -1,8 +1,8 @@
 # angular2-presta
 
-This is beta version of angular 2 services for consuming Presta Shop API, with many bugs and missing features, only for testing ...
+Angular 2 services for consuming PrestaShop API ...
 
-This library should help developers coding angular 2 and ionic 2 apps consuming Presta Shop API.
+This library should help developers coding angular 2 and ionic 2 apps consuming PrestaShop API.
 
 ## Installation
 
@@ -49,7 +49,6 @@ export class AppModule { }
 
 ## Using PrestaService
 
-Example
 ```typescript
 import { Component } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
@@ -90,19 +89,20 @@ export class AppComponent {
 }
 ```
 
-# Constructing Query
+## Constructing Query
 
 For now only GET method is supported, no posting or updating data is available.
 
 Query options:
-  * resource: **string** > Select type of results: products, categories, customers ...
-  * display : **string** > Allows you to limit result fields to only those you need, by default it will return all fields
-  * filter: **Object** > object defining fields and values to filter results by
-  * sort: **string** > sort results by: 'id_ASC', 'id_DESC', 'name_ASC', 'name_DESC' ...
-  * limit: **string** > limit number of results, or define range of results '5', '9,5'
-  * search: **string** > search term to use for presta web service search
 
-## Get product categories
+- resource: **string** > Select type of results: products, categories, customers ...
+- display : **string** > Allows you to limit result fields to only those you need, by default it will return all fields
+- filter: **Object** > object defining fields and values to filter results by
+- sort: **string** > sort results by: 'id_ASC', 'id_DESC', 'name_ASC', 'name_DESC' ...
+- limit: **string** > limit number of results, or define range of results '5', '9,5'
+- search: **string** > search term to use for presta web service search
+
+### Get product categories
 
 ```typescript
 let query: Query = {
@@ -110,7 +110,7 @@ let query: Query = {
   };
 ```
 
-## Get products by category
+### Get products by category
 
 ```typescript
 let query: Query = {
@@ -119,6 +119,20 @@ let query: Query = {
       id_category_default: '11'
     }
   };
+```
+
+### Get product by id
+
+```typescript
+let query: Query = {
+    resource: 'products',
+    filter: {
+      id: '1'
+    }
+  };
+
+  this._prestaService.get(query)
+                     .subscribe(results => this.items = results[0]);
 ```
 
 ## Using search
@@ -155,15 +169,30 @@ Some of the Presta web service results come with html tags included to filter ou
   <li *ngFor="let item of items">
     <h1>{{ item.name }}</h1>
     <p>{{ item.description_short | removeTags }}</p>
-    <p>{{ item.price }}<p>
+    <p>{{ item.price | currency }}<p>
   </li>
 </ul>
 ```
 
+## Roadmap
+
+- [x] GET requests, filtering, sorting
+- [x] Search support
+- [ ] Product images support
+- [ ] POST requests
+- [ ] UPDATE requests
+- [ ] DELETE requests
+
 ## Latest updates
 
-* [0.1.3] Added support for search, code optimized, many fixes
-* [v0.1.2] Added support for more then one filter
+- ### v0.1.4 - v0.1.5
+  Updated documentation
+
+- ### v0.1.3
+  Added support for search, code optimized, many fixes
+
+- ### v0.1.2
+  Added support for more then one filter
 
 ## License
 
