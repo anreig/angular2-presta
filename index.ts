@@ -16,10 +16,12 @@ export * from './src/presta.components';
     CommonModule
   ],
   declarations: [
-    PrestaPipe
+    PrestaPipe,
+    PrestaImage
   ],
   exports: [
-    PrestaPipe
+    PrestaPipe,
+    PrestaImage
   ]
 })
 export class PrestaModule {
