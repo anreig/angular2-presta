@@ -1,9 +1,10 @@
-import { Injectable, Inject } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import {Injectable, Inject} from '@angular/core';
+import {Http, Response} from '@angular/http';
+// Import rxjs operators
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-
-import { PrestaConfiguration, Query } from './presta.interfaces';
+// Import presta configuration and Query
+import {PrestaConfiguration, Query} from './presta.interfaces';
 
 @Injectable()
 export class PrestaService {
@@ -41,7 +42,7 @@ export class PrestaService {
         !q.limit ? q.limit = '' : q.limit = `&limit=${q.limit}`;
 
         if (!q.search) {
-            return `${this.config.shopUrl}${q.resource}?ws_key=${this.config.apiKey}&output_format=JSON${q.display}${filterQuery}${q.sort}`;
+            return `${this.config.shopUrl}${q.resource}?ws_key=${this.config.apiKey}&output_format=JSON${q.display}${filterQuery}${q.sort}${q.limit}`;
         } else {
             return `${this.config.shopUrl}search?ws_key=${this.config.apiKey}&output_format=JSON&language=1${q.display}${filterQuery}&query=${q.search}`;
         }
@@ -74,4 +75,24 @@ export class PrestaService {
 
     }
 
+    /**
+     * [getImage used by PrestaImage component to get images from Presta Shop Web Service]
+     * @param  {string}          resource   [general, products, categories, manufacturers, suppliers, stores]
+     * @param  {number}          resourceID [ID of resurce to get images for]
+     * @param  {number}          imageID    [ID of image to get]
+     * @param  {string}          imageSize  [cart_default, small_default, medium_default, large_default, thickbox_default, home_default, category_default]
+     * @return {Observable<any>}            [url]
+     */
+    getImage(resource: string, resourceID: number, imageID: number, imageSize?: string): Observable<any> {
+
+        let key: string = '';
+        !this.config.imageApiKey ? key = this.config.apiKey : key = this.config.imageApiKey;
+
+        !imageSize ? imageSize = '' : imageSize;
+
+        return this.http
+            .get(`${this.config.shopUrl}images/${resource}/${resourceID}/${imageID}/${imageSize}?ws_key=${key}`)
+            .map((result: Response) => result.url);
+
+    }
 }
