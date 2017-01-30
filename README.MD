@@ -22,14 +22,15 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-// Import angular2-presta module
-import { PrestaModule, PrestaConfiguration, PrestaPipe } from 'angular2-presta';
-
 import { AppComponent } from './app.component';
+
+// Import angular2-presta module
+import { PrestaModule, PrestaConfiguration, PrestaPipe, PrestaImage } from 'angular2-presta';
 
 // Add your presta web service api key and shop url
 export const prestaConfiguration: PrestaConfiguration = {
   apiKey: 'YOUR_PRESTA_API_KEY',
+  imageApiKey: 'YOUR_PRESTA_API_KEY', // ApiKey only with images GET permissions for security reasons
   shopUrl: 'http://yourshop.com/api/'
 };
 
