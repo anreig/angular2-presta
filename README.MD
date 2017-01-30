@@ -1,5 +1,4 @@
 # angular2-presta
-[![Build Status](https://travis-ci.org/SKaDiZZ/angular2-presta.svg?branch=master)](https://travis-ci.org/SKaDiZZ/angular2-presta)
 
 Angular 2 services for consuming PrestaShop API ...
 
