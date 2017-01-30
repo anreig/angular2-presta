@@ -66,13 +66,14 @@ import { PrestaService, Query } from 'angular2-presta';
 export class AppComponent {
 
   items: Observable<any>;
+  query: Query;
 
   constructor(private _prestaService: PrestaService) {
 
     // construct Query
-    let query: Query = {
+    query = {
       resource : 'products',
-      display  : 'id, id_default_image, name, price, description_short, condition',
+      display  : 'id,id_default_image,name,price,description_short,condition',
       filter: {
         name: 'blouse',
         condition: 'new'
@@ -176,6 +177,71 @@ Some of the Presta web service results come with html tags included to filter ou
 </ul>
 ```
 
+## Working with images
+
+Before you try to use images you should generate one special API KEY, only with one permission to GET images. This is most secure method, because your API KEY will be included in every call to fetch image so it's easy to obtain it by third person.
+
+Include your images API KEY into PrestaConfiguration object in AppModule:
+
+```typescript
+// Add your presta web service api key and shop url
+export const prestaConfiguration: PrestaConfiguration = {
+  apiKey: 'YOUR_PRESTA_API_KEY',
+  imageApiKey: 'YOUR_PRESTA_API_KEY', // ApiKey only with images GET permissions for security reasons
+  shopUrl: 'http://yourshop.com/api/'
+}
+```
+
+In your component:
+
+```typescript
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { PrestaService, Query, PrestaImage } from 'angular2-presta';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+
+  products: Observable<any>;
+  query: Query;
+
+  constructor(private _prestaService: PrestaService) {
+
+      this.query = {
+        resource: 'products',
+        imageSizes: {
+          small: 'cart_default',
+          large: 'large_default'
+        }
+      };
+
+      this._prestaService.get(this.query)
+                         .subscribe(results => this.products = results);
+    }
+}
+```
+
+In your html template:
+
+```html
+<ul *ngIf="products">
+  <li *ngFor="let item of products">
+    <presta-img [resource]="query.resource" [resourceID] ="item.id" [imageID]="item.id_default_image" [size]="query.imageSizes.large"></presta-img>
+    <h1>{{ item.name }}</h1>
+    <p>{{ item.description_short | removeTags  }}</p>
+    <h3>{{ item.price | currency }}</h3>
+    <ul *ngIf="item.associations.images">
+           <li *ngFor="let image of item.associations.images">
+               <presta-img [resource]="query.resource" [resourceID]="item.id" [imageID]="image.id" [size]="query.imageSizes.small"></presta-img>
+           </li>
+       </ul>
+  </li>
+```
+
 ## Roadmap
 
 - [x] GET requests, filtering, sorting
@@ -199,6 +265,14 @@ Some of the Presta web service results come with html tags included to filter ou
 
 ### v0.1.2
   - Added support for more then one filter
+
+## Aditional resources
+
+- [Presta Shop web service: Documentation](http://doc.prestashop.com/display/PS16/Using+the+PrestaShop+Web+Service)
+- [Presta Shop web service: Tutorial](http://doc.prestashop.com/display/PS16/Web+service+tutorial)
+- [Presta Shop web service: Advanced usage](http://doc.prestashop.com/display/PS16/Chapter+8+-+Advanced+use)
+- [Presta Shop web service: Image management](http://doc.prestashop.com/display/PS16/Chapter+9+-+Image+management)
+- [Presta Shop web service: Reference](http://doc.prestashop.com/display/PS16/Web+service+reference)
 
 ## License
 
