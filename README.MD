@@ -253,6 +253,10 @@ In your html template:
 
 ## Latest updates
 
+### v0.1.7
+  - Fixed module exports
+  - Documentation improved
+
 ### v0.1.6
   - Added images support by new PrestaImage component
   - Fixed limit not working
