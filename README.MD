@@ -25,7 +25,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
 // Import angular2-presta module
-import { PrestaModule, PrestaConfiguration, PrestaPipe, PrestaImage } from 'angular2-presta';
+import { PrestaModule, PrestaConfiguration } from 'angular2-presta';
 
 // Add your presta web service api key and shop url
 export const prestaConfiguration: PrestaConfiguration = {
@@ -197,22 +197,26 @@ In your component:
 ```typescript
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { PrestaService, Query, PrestaImage } from 'angular2-presta';
+import { PrestaService, Query } from 'angular2-presta';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [PrestaService]
 })
 export class AppComponent {
 
-  products: Observable<any>;
+  product: Observable<any>;
   query: Query;
 
   constructor(private _prestaService: PrestaService) {
 
       this.query = {
         resource: 'products',
+        filter: {
+          id: '1'
+        },
         imageSizes: {
           small: 'cart_default',
           large: 'large_default'
@@ -220,7 +224,7 @@ export class AppComponent {
       };
 
       this._prestaService.get(this.query)
-                         .subscribe(results => this.products = results);
+                         .subscribe(results => this.product = results[0]);
     }
 }
 ```
@@ -228,15 +232,15 @@ export class AppComponent {
 In your html template:
 
 ```html
-<ul *ngIf="products">
-  <li *ngFor="let item of products">
-    <presta-img [resource]="query.resource" [resourceID] ="item.id" [imageID]="item.id_default_image" [size]="query.imageSizes.large"></presta-img>
-    <h1>{{ item.name }}</h1>
-    <p>{{ item.description_short | removeTags  }}</p>
-    <h3>{{ item.price | currency }}</h3>
-    <ul *ngIf="item.associations.images">
-           <li *ngFor="let image of item.associations.images">
-               <presta-img [resource]="query.resource" [resourceID]="item.id" [imageID]="image.id" [size]="query.imageSizes.small"></presta-img>
+<ul *ngIf="product">
+  <li>
+    <presta-img [resource]="query.resource" [resourceID] ="product.id" [imageID]="product.id_default_image" [size]="query.imageSizes.large"></presta-img>
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description_short | removeTags  }}</p>
+    <h3>{{ product.price | currency }}</h3>
+    <ul *ngIf="product.associations.images">
+           <li *ngFor="let image of product.associations.images">
+               <presta-img [resource]="query.resource" [resourceID]="product.id" [imageID]="image.id" [size]="query.imageSizes.small"></presta-img>
            </li>
        </ul>
   </li>
