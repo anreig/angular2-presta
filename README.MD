@@ -102,6 +102,7 @@ Query options:
 - sort: **string** > sort results by: 'id_ASC', 'id_DESC', 'name_ASC', 'name_DESC' ...
 - limit: **string** > limit number of results, or define range of results '5', '9,5'
 - search: **string** > search term to use for presta web service search
+- imageSizes: **Object** > define image sizes: cart_default, small_default, medium_default, large_default, thickbox_default, home_default, category_default
 
 ### Get product categories
 
@@ -178,22 +179,26 @@ Some of the Presta web service results come with html tags included to filter ou
 ## Roadmap
 
 - [x] GET requests, filtering, sorting
-- [x] Search support
-- [ ] Product images support
+- [x] SEARCH support
+- [x] IMAGES support
 - [ ] POST requests
 - [ ] UPDATE requests
 - [ ] DELETE requests
 
 ## Latest updates
 
-- ### v0.1.4 - v0.1.5
-  Updated documentation
+### v0.1.6
+  - Added images support by new PrestaImage component
+  - Fixed limit not working
 
-- ### v0.1.3
-  Added support for search, code optimized, many fixes
+### v0.1.4 - v0.1.5
+  - Updated documentation
 
-- ### v0.1.2
-  Added support for more then one filter
+### v0.1.3
+  - Added support for search, code optimized, many fixes
+
+### v0.1.2
+  - Added support for more then one filter
 
 ## License
 
