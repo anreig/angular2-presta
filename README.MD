@@ -1,3 +1,5 @@
+![angular2-presta](https://imagizer.imageshack.us/v2/888x214q90/922/yZyztX.png)
+
 # angular2-presta
 
 Angular 2 services for consuming PrestaShop API ...
@@ -71,7 +73,7 @@ export class AppComponent {
   constructor(private _prestaService: PrestaService) {
 
     // construct Query
-    query = {
+    this.query = {
       resource : 'products',
       display  : 'id,id_default_image,name,price,description_short,condition',
       filter: {
@@ -83,7 +85,7 @@ export class AppComponent {
     };
 
     // pass Query to presta service and subscribe to get results
-    this._prestaService.get(query)
+    this._prestaService.get(this.query)
                        .subscribe(results => this.items = results);
 
   }
