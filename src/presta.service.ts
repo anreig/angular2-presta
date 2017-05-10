@@ -84,7 +84,7 @@ export class PrestaService {
       .get(this.requestConstructor(q))
       .map((results: Response) => results.json()[q.resource])
       .catch((error: any) => {
-        return Observable.throw(new Error(`${this.TAG} Error searching ${q.resource}: ${error.status} => ${error.message}`));
+        return Observable.throw(new Error(`${this.TAG} Error searching ${q.resource}: ${error.json().error.status} => ${error.message}`));
       });
 
   }

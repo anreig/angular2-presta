@@ -120,12 +120,12 @@ Query options:
 - sort: **string** > sort results by: 'id_ASC', 'id_DESC', 'name_ASC', 'name_DESC' ...
 - limit: **string** > limit number of results, or define range of results '5', '9,5'
 - search: **string** > search term to use for presta web service search
-- imageSizes: **Object** > define image sizes: cart_default, small_default, medium_default, large_default, thickbox_default, home_default, category_default
+- imageSizes: **Object** <ImageSize> define image sizes using ImageSize enum for example ImageSize.small_default, ImageSize.large_default
 
 ### Get product categories
 
 ```typescript
-let query: Query = {
+query: Query = {
     resource: 'categories'
   };
 ```
@@ -133,7 +133,7 @@ let query: Query = {
 ### Get products by category
 
 ```typescript
-let query: Query = {
+query: Query = {
     resource: 'products',
     filter: {
       id_category_default: '11'
@@ -144,7 +144,7 @@ let query: Query = {
 ### Get product by id
 
 ```typescript
-let query: Query = {
+query: Query = {
     resource: 'products',
     filter: {
       id: '1'
@@ -209,7 +209,7 @@ export const prestaConfiguration: PrestaConfiguration = {
 }
 ```
 
-In your component:
+Your component: We will get product with id of 1 and define image sizes we will use in our template using ImageSize enum values. For example we can use large size for products default image and small size for all other images.
 
 ```typescript
 import { Component } from '@angular/core';
@@ -276,6 +276,7 @@ In your html template:
 
 ### v0.1.8
   - Upadated presta-img component for better image loading
+  - presta-img now requires image size to be defined using ImageSize enum values to reduce errors
   - All packages updated
   - Better error catching
   - Tested with Prestashop 1.7
