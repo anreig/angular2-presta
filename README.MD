@@ -27,7 +27,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
 // Import angular2-presta module
-import { PrestaModule, PrestaConfiguration } from 'angular2-presta';
+import { PrestaModule, PrestaConfiguration, PrestaService } from 'angular2-presta';
 
 // Add your presta web service api key and shop url
 export const prestaConfiguration: PrestaConfiguration = {
@@ -96,7 +96,7 @@ export class AppComponent {
 
     // pass Query to presta service and subscribe to get results
     this.subscription = this._prestaService.get(this.query)
-                       .subscribe(results => this.items = results);
+                       .subscribe(results => this.products = results);
 
   }
 
@@ -274,7 +274,7 @@ In your html template:
 
 ## Latest updates
 
-### v0.1.8
+### v0.1.9
   - Upadated presta-img component for better image loading
   - presta-img now requires image size to be defined using ImageSize enum values to reduce errors
   - All packages updated
